@@ -52,11 +52,15 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         // == create initial roles
         final List<Privilege> adminPrivileges = new ArrayList<>(Arrays.asList(readPrivilege, writePrivilege, passwordPrivilege));
         final List<Privilege> userPrivileges = new ArrayList<>(Arrays.asList(readPrivilege, passwordPrivilege));
+
         final Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
+        final Role managerRole = createRoleIfNotFound("ROLE_MANAGER", adminPrivileges);
+
         createRoleIfNotFound("ROLE_USER", userPrivileges);
 
         // == create initial user
         createUserIfNotFound("test@test.com", "Test", "Test", "test", new ArrayList<>(Arrays.asList(adminRole)));
+        createUserIfNotFound("test_manager@test.com", "Kinjal", "Patel", "test_manager", new ArrayList<>(Arrays.asList(managerRole)));
 
         alreadySetup = true;
     }

@@ -159,6 +159,26 @@ public class RegistrationController {
         return "redirect:/login?lang=" + locale.getLanguage();
     }
 
+    /**
+     * Adding an endpoint to redirect "manager" type user to management.html page
+     * @param request
+     * @param model
+     * @param messageKey
+     * @return
+     */
+    @GetMapping("/management")
+    public ModelAndView management(final HttpServletRequest request, final ModelMap model, @RequestParam("messageKey") final Optional<String> messageKey) {
+        Locale locale = request.getLocale();
+        messageKey.ifPresent( key -> {
+                    String message = messages.getMessage(key, null, locale);
+                    model.addAttribute("message", message);
+                }
+        );
+        model.addAttribute("name", request.getParameter("user"));
+
+        return new ModelAndView("management", model);
+    }
+
     // ============== NON-API ============
 
     public void authWithoutPassword(User user) {
